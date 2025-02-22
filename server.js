@@ -29,12 +29,6 @@ app.use(express.static('public'));
 app.post('/', (req, res) => {
     const { name, surname, password, phone, email, domainData } = req.body;
 
-    delete req.body.eesnimi;
-    delete req.body.perekonnanimi;
-    delete req.body.domainData;
-    delete req.body.domeeniNama;
-    delete req.body.phonenumber;
-
     db.run(
         `INSERT INTO users (name, surname, password, phone, email, domainData) VALUES (?, ?, ?, ?, ?, ?)`,
         [name, surname, password, phone, email, domainData],
