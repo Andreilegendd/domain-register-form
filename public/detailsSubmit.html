@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DetailsSubmit</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="./style.css">
+    <script src="script.js"></script>
+</head>
+<body>
+    <div class="container" id="navigationDiv">
+        <div class="position-relative ">
+            <div class="progress" role="progressbar" aria-label="Progress" aria-valuenow="50" aria-valuemin="0"
+                aria-valuemax="100" style="height: 2px;">
+                <div class="progress-bar bg-purple" style="width: 100%;"></div>
+            </div>
+            <button type="button" class="position-absolute top-0 start-0 translate-middle btn btn-sm rounded-pill"
+                id="navigationBar">1</button>
+            <button type="button" class="position-absolute top-0 start-50 translate-middle btn btn-sm rounded-pill"
+                id="navigationBar">2</button>
+            <button type="button" class="position-absolute top-0 start-100 translate-middle btn btn-sm rounded-pill"
+                id="navigationBar">3</button>
+        </div>
+    </div>
+
+    <form class="detailsForm" style="top: 40%;" action="./complete.html" id="detailsForm">
+
+        <div id="formValues" class="position-absolute border border-2 border-dark rounded p-2"
+            style="background-color: #b88be2;  width: 50%; top: 0%; left: 50%; height: auto; transform: translate(-50%, -50%); height: 170px;">
+        </div>
+
+        <script>
+            // Get the query parameters from the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            let previous = JSON.parse(localStorage.getItem("domain-form") || "{}")
+            for(const [key, value] of urlParams.entries()){
+                previous[key] = value
+            }
+
+            localStorage.setItem("domain-form", JSON.stringify(previous))
+
+            // Get the form values from the query parameters
+            const domainName = urlParams.get('domainData');
+            const selectDomain = urlParams.get('tld');
+
+
+
+            // Set the form values in the HTML
+            document.getElementById('formValues').innerHTML = `
+                <p><b>Your domain:</b><br> ${domainName}</strong></p>`;
+        </script>
+        
+    </form>
+
+
+    <button class="backFormButton" type="button" onclick="window.location.href='./form.html'">BACK</button>
+    <button class="submitButton" type="submit" form="detailsForm" accesskey="detailsForm" onclick="getData()">SUBMIT</button>
+
+
+</body>
+
+</html>
