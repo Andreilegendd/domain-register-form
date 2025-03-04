@@ -1,11 +1,14 @@
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const cors = require('cors');
+const fs = require('fs');
 
 const app = express();
 const port = 3000;
 
 const db = new sqlite3.Database('database.sqlite');
+
+const orders = [];
 
 db.run(`
     CREATE TABLE IF NOT EXISTS users (
@@ -18,7 +21,6 @@ db.run(`
     domainData TEXT UNIQUE
     )
 `);
-
 
 app.use(cors());
 app.use(express.json());
@@ -38,6 +40,10 @@ app.post('/', (req, res) => {
                 res.status(500).json({ success: false, message: "Error saving data to the database" });
             } else {
                 console.log("User added:", req.body);
+                
+                orders.push(req.body);
+                fs.writeFileSync("db.json", JSON.stringify(orders));
+                
                 res.status(201).json({ success: true, id: this.lastID, data: req.body });
             }
         }
